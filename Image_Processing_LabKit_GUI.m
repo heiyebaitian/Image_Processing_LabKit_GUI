@@ -22,7 +22,7 @@ function varargout = Image_Processing_LabKit_GUI(varargin)
 
 % Edit the above text to modify the response to help Image_Processing_LabKit_GUI
 
-% Last Modified by GUIDE v2.5 20-Nov-2024 21:09:52
+% Last Modified by GUIDE v2.5 21-Nov-2024 21:15:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -323,7 +323,7 @@ guidata(hObject,handles);
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
+% 高斯噪声
 % --- Executes on button press in n1.
 function n1_Callback(hObject, eventdata, handles)
 
@@ -346,6 +346,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 泊松噪声
 % --- Executes on button press in n2.
 function n2_Callback(hObject, eventdata, handles)
 
@@ -368,6 +369,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 椒盐噪声
 % --- Executes on button press in n3.
 function n3_Callback(hObject, eventdata, handles)
 
@@ -390,6 +392,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 斑点噪声
 % --- Executes on button press in n4.
 function n4_Callback(hObject, eventdata, handles)
 
@@ -413,6 +416,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 瑞利噪声
 % --- Executes on button press in n5.
 function n5_Callback(hObject, eventdata, handles)
 % 提取三个颜色通道
@@ -438,6 +442,7 @@ updateg345(handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 指数噪声
 % --- Executes on button press in n6.
 function n6_Callback(hObject, eventdata, handles)
 % 提取三个颜色通道
@@ -463,6 +468,7 @@ updateg345(handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 伽马噪声
 % --- Executes on button press in n7.
 function n7_Callback(hObject, eventdata, handles)
 % 提取三个颜色通道
@@ -487,6 +493,7 @@ updateg345(handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 均匀噪声
 % --- Executes on button press in n8.
 function n8_Callback(hObject, eventdata, handles)
 % 提取三个颜色通道
@@ -512,14 +519,16 @@ updateg345(handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-
+% 高斯滤波
 % --- Executes on button press in f2.
 function f2_Callback(hObject, eventdata, handles)
 
 hsize=[8 8]; sigma=1.7;
 h=fspecial('gaussian',hsize,sigma);
 handles.img=imfilter(handles.img,h,'replicate');
-axes(handles.g2); cla; imshow(handles.img);
+axes(handles.g2); 
+cla; 
+imshow(handles.img);
 guidata(hObject,handles);
 
 % 检查图像是否为彩色
@@ -535,12 +544,15 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 均值滤波
 % --- Executes on button press in f1.
 function f1_Callback(hObject, eventdata, handles)
 
 h=fspecial('average'); % 创建一个平均滤波器，用于图像平滑处理
 handles.img=imfilter(handles.img,h,'replicate'); % 使用创建的平均滤波器对图像进行滤波，边界处理采用复制边缘像素的方法
-axes(handles.g2); cla; imshow(handles.img)
+axes(handles.g2); 
+cla; 
+imshow(handles.img)
 guidata(hObject,handles);
 
 % 检查图像是否为彩色
@@ -556,6 +568,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 中值滤波
 % --- Executes on button press in f3.
 function f3_Callback(hObject, eventdata, handles)
 
@@ -563,7 +576,9 @@ r=medfilt2(handles.img(:,:,1));
 g=medfilt2(handles.img(:,:,2));
 b=medfilt2(handles.img(:,:,3)); 
 handles.img=cat(3,r,g,b);
-axes(handles.g2); cla; imshow(handles.img);
+axes(handles.g2); 
+cla; 
+imshow(handles.img);
 guidata(hObject,handles);
 
 mysize=size(handles.img);
@@ -578,6 +593,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 红色线性变化
 % --- Executes on slider movement.
 function slider1_Callback(hObject, eventdata, handles)
 
@@ -600,7 +616,7 @@ updateg345(handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
-
+% 绿色线性变化
 % --- Executes on slider movement.
 function slider2_Callback(hObject, eventdata, handles)
 
@@ -622,7 +638,7 @@ updateg345(handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-
+% 蓝色线性变化
 % --- Executes on slider movement.
 function slider3_Callback(hObject, eventdata, handles)
 
@@ -646,6 +662,7 @@ updateg345(handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
+% 灰度
 % --- Executes on button press in m4.
 function m4_Callback(hObject, eventdata, handles)
 
@@ -662,27 +679,7 @@ updateg3_1(handles);
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in m6.
-function m6_Callback(hObject, eventdata, handles)
-
-handles.img=fliplr(handles.img);
-axes(handles.g2);
-cla;
-imshow(handles.img);
-guidata(hObject,handles);
-
-mysize=size(handles.img);
-if numel(mysize)>2
-    updateg345(handles)
-else
-    updateg3_1(handles)
-end 
-
-% hObject    handle to m6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
+% 索引
 % --- Executes on button press in m8.
 function m8_Callback(hObject, eventdata, handles)
 
@@ -706,6 +703,29 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 左右翻转
+% --- Executes on button press in m6.
+function m6_Callback(hObject, eventdata, handles)
+
+handles.img=fliplr(handles.img);
+axes(handles.g2);
+cla;
+imshow(handles.img);
+guidata(hObject,handles);
+
+mysize=size(handles.img);
+if numel(mysize)>2
+    updateg345(handles)
+else
+    updateg3_1(handles)
+end 
+
+% hObject    handle to m6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% 上下翻转
 % --- Executes on button press in m7.
 function m7_Callback(hObject, eventdata, handles)
 
@@ -728,6 +748,7 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% Sobel边缘提取
 % --- Executes on button press in m1.
 function m1_Callback(hObject, eventdata, handles)
 
@@ -747,6 +768,7 @@ updateg3_1(handles);
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% Roberts边缘提取
 % --- Executes on button press in m2.
 function m2_Callback(hObject, eventdata, handles)
 
@@ -767,8 +789,7 @@ updateg3_1(handles);
 % handles    structure with handles and user data (see GUIDATA)
 
 
-
-
+% LOG边缘提取
 % --- Executes on button press in m3.
 function m3_Callback(hObject, eventdata, handles)
 
@@ -789,6 +810,7 @@ updateg3_1(handles);
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 反色
 % --- Executes on button press in invc.
 function invc_Callback(hObject, eventdata, handles)
 
@@ -808,6 +830,7 @@ guidata(hObject,handles);
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 二值化
 % --- Executes on button press in m5.
 function m5_Callback(hObject, eventdata, handles)
 
@@ -824,6 +847,7 @@ updateg3_1(handles);
 % handles    structure with handles and user data (see GUIDATA)
 
 
+% 亮度
 % --- Executes on slider movement.
 function slider4_Callback(hObject, eventdata, handles)
 
@@ -841,7 +865,7 @@ updateg345(handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
-
+% 旋转图像
 % --- Executes on slider movement.
 function slider5_Callback(hObject, eventdata, handles)
 
